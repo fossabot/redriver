@@ -20,3 +20,9 @@ Then Redriver will use the processing function you'll provide on each event, ins
 If everything works well, Redriver will return `nil` when all messages have been processed and you should make your handler return a non-error type so all messages will be deleted.
 
 If some or every messages failed even after retrying them, Redriver will delete the processed messages from the queue and return an error. You should return any error in your handler in this case so every unprocessed messages will be sent to the DLQ specified in your AWS SQS Redrive Policy.
+
+## SQS Redrive Policy
+
+Since this module allows you to do in-code retries, you should set the lambda `maxReceiveCount` parameter to 1 if you use retries in this module.
+
+If you don't do so, the amount of retries done will be `maxReceiveCount * redriverRetries`. It could also be a strategy with "quick" retries effectued by this module in-code, and delayed replay using `maxReceiveCount`.
