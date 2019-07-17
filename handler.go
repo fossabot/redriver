@@ -9,7 +9,7 @@ import (
 
 // Redriver is the main struct used to store policy and redrive messages.
 type Redriver struct {
-	ComsumedQueueURL string
+	ConsumedQueueURL string
 	Retries          int
 }
 
@@ -24,7 +24,7 @@ type MessageProcessor = func(event events.SQSMessage) error
 func (redriver Redriver) deleteProcessedMessages(processedMessages *[]processResult, sqsConnector *sqs.SQS) error {
 	for _, processedMessage := range *processedMessages {
 		_, err := sqsConnector.DeleteMessage(&sqs.DeleteMessageInput{
-			QueueUrl:      &redriver.ComsumedQueueURL,
+			QueueUrl:      &redriver.ConsumedQueueURL,
 			ReceiptHandle: &processedMessage.message.ReceiptHandle,
 		})
 
