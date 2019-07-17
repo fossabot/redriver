@@ -10,7 +10,7 @@ import (
 // Redriver is the main struct used to store policy and redrive messages.
 type Redriver struct {
 	ComsumedQueueURL string
-	Retries          uint8
+	Retries          int
 }
 
 type processResult struct {
@@ -38,13 +38,17 @@ func (redriver Redriver) deleteProcessedMessages(processedMessages *[]processRes
 
 func (redriver Redriver) processMessageAsync(message events.SQSMessage, processor MessageProcessor, processResultChannel chan<- processResult) {
 	go func() {
-		err := processor(message)
-		if err != nil {
-			processResultChannel <- processResult{message, err}
-			return
+		var processorError error
+		for i := 1; i <= redriver.Retries; i++ {
+			processorError = processor(message)
+
+			if processorError == nil {
+				processResultChannel <- processResult{message, nil}
+				return
+			}
 		}
 
-		processResultChannel <- processResult{message, nil}
+		processResultChannel <- processResult{message, processorError}
 	}()
 }
 
