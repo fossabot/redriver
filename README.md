@@ -4,6 +4,7 @@
 [![GoDoc](https://godoc.org/github.com/forsam-education/redriver?status.svg)](https://godoc.org/github.com/forsam-education/redriver)
 [![Go Report Card](https://goreportcard.com/badge/github.com/forsam-education/redriver)](https://goreportcard.com/report/github.com/forsam-education/redriver)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fforsam-education%2Fredriver.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fforsam-education%2Fredriver?ref=badge_shield)
 
 ## Original problem
 
@@ -70,3 +71,7 @@ func HandleEvent(_ context.Context, sqsEvent events.SQSEvent) error {
 ```
 
 Returning the error of the Redriver is a good practice (because of the explanation above about lambda error handling), and if you don't do so, you will anyway need to return an error from the main handler if the Redriver returned one.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fforsam-education%2Fredriver.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fforsam-education%2Fredriver?ref=badge_large)
